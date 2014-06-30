@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/Users/levenick/kelley/marc/src/org/marc4j/jrl/utils/Utils.java</file>
+            <file>file:/Users/levenick/kelley/marc/src/org/marc4j/jrl/OneRecordFrame.java</file>
+            <file>file:/Users/levenick/kelley/marc/src/org/marc4j/rules/Action.java</file>
+            <file>file:/Users/levenick/kelley/marc/src/org/marc4j/jrl/StringCounterList.java</file>
+            <file>file:/Users/levenick/kelley/marc/src/org/marc4j/jrl/transformation/resources/thingsToDo.tex</file>
+            <file>file:/Users/levenick/kelley/marc/src/org/marc4j/rules/resources/fileInfo.txt</file>
+            <file>file:/Users/levenick/kelley/marc/src/org/marc4j/samples/WriteMarcExample.java</file>
+            <file>file:/Users/levenick/kelley/marc/src/org/marc4j/MarcStreamReader.java</file>
+            <file>file:/Users/levenick/kelley/marc/src/org/marc4j/jrl/MarcDisplayFrame.java</file>
+            <file>file:/Users/levenick/kelley/marc/src/org/marc4j/rules/RequiredControlField.java</file>
+            <file>file:/Users/levenick/kelley/marc/src/org/marc4j/rules/DisplayRegexMatchesFrame.java</file>
+            <file>file:/Users/levenick/kelley/marc/src/org/marc4j/rules/StringList.java</file>
+            <file>file:/Users/levenick/kelley/marc/src/org/marc4j/rules/Header.java</file>
+            <file>file:/Users/levenick/kelley/marc/src/org/marc4j/samples/ReadMarcExample.java</file>
+            <file>file:/Users/levenick/kelley/marc/src/org/marc4j/jrl/RuleChoiceDialog.java</file>
+            <file>file:/Users/levenick/kelley/marc/src/org/marc4j/rules/DisplayRuleTestFrame.java</file>
+            <file>file:/Users/levenick/kelley/marc/src/org/marc4j/rules/RuleSet.java</file>
+            <file>file:/Users/levenick/kelley/marc/src/org/marc4j/jrl/transformation/Driver.java</file>
+            <file>file:/Users/levenick/kelley/marc/src/org/marc4j/rules/RuleReader.java</file>
+            <file>file:/Users/levenick/kelley/marc/src/org/marc4j/rules/Rule.java</file>
+            <file>file:/Users/levenick/kelley/marc/src/org/marc4j/rules/Condition.java</file>
+            <file>file:/Users/levenick/kelley/marc/src/org/marc4j/jrl/StringCounter.java</file>
+            <file>file:/Users/levenick/kelley/marc/src/org/marc4j/jrl/transformation/TransformationFrame.java</file>
+            <file>file:/Users/levenick/kelley/marc/src/org/marc4j/rules/RegexFrame.java</file>
+        </group>
+    </open-files>
+</project-private>

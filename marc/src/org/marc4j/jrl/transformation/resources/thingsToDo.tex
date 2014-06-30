@@ -1,0 +1,269 @@
+5/16
+Write modified records.
+
+Pretty up record.toString() 
+	sort fields
+	indent subfields (5/17)
+	filter fields displayed (std set including the fields I'm dealing with; option to see others) (5/17)
+
+Add subfields indicating where the info came from (5/20)
+Stats/display what rules are being used, how often, stuff like that
+
+Conceptualize new fields to indicate status: 1-5 done/not done/whatever
+
+Partition input by finished/not? Or just handle by filters? 
+Stats thereof?
+
+Mappings from sets of variants/typos to keywords.
+    Tool mostly built (5/17)
+
+5/18
+Build mapping from {variants} -> keywords (i.e. {videocassete, vidoecassette, videocasette} -> videocassette
+    automagically!?
+
+Rules:
+    Write 96x records as: =961  \\$a300$b1$ca$d1$e1$fP12M$gtotal$iapproximate time$jcorrect (5/20)
+    Record which RS:rule gleaned the info when writing the 96x records (5/21)
+
+Processing:
+    Check if already applied before trying to apply rules again
+    Generate stats
+        for each task
+            how many finished
+            how many not (%?)
+                create lists of relevant fields (StringList)
+                    sorted
+                    counted
+    Set input/output directories and write them locally
+
+GUI
+    Testing
+        for a rule
+            how many matches
+        for a set of rules (rule set (RS)) e.g. duration.rs how many matches, how many misses
+        select task/RS
+        given a RS, glean fields used, display those (as an option)
+    Processing
+
+5/27 -- next steps
+Review/fix RuleSet, RuleReader, and the tangle of Globals.setRulething, Rule.setRuleSet... etc
+Check that the simple Duration rules work (yes! they do!)
+    make the RuleDialog thing pop up over to the right...
+Test the pattern-based (regex) rules (5/30)
+
+jar and writing to the um... master path file thingee from jar...
+Here's a clue:
+        URL bar = Rule.class.getResource("resources/fileInfo.txt");
+        System.out.println("bar = " + bar.getPath());
+Maybe??
+
+5/30
+Write code to handle multiple fields in the condition part (all ors) -- (5/31, but not tested extensively!)
+Write code for #.#:1 (6/5)
+
+*****************************************************************************
+BIG PICTURE:
+
+Format (960)
+    Group 1 done 6/5
+    Group 2 done 6/5
+    Group 3 maybe done 6/6
+    Group 4 done 6/8
+
+Duration (961)
+    Group 1 done 5/19
+    Group 2
+
+Color (962)
+    Group 1 done 5/24
+    Group 2 done 6/6        only applies the *first* matching rule, so order is important!
+
+Sound (963) -- these only apply the *first* matching rule, so order is important!
+    Group 1 done 6/2
+    Group 2 done 6/4
+    Group 3 done 6/3
+
+Aspect Ratio (964)
+    Group 1 done 5/31
+    Group 2 done 6/5
+
+*****************************************************************************
+
+Argh! As far as I can tell, I can write to /Users/levenick/kelley/olddata/output/someFile.mrc, but when I try it
+to /Users/levenick/kelley/marc/build/classes/org/marc4j/rules/resources/data/output/foo.mrc, it doesn't write... :((((( 
+...but no Exceptions... just nothing...
+Gee!  Look at the "build" in that second pathname... curious, no?
+Gah! Gah! Gah!
+(solved by working from/with the directory specified in fileinfo.txt)
+
+5/31
+Need to figure out how to package so someone else can run it... (kinda done 6/2)
+
+6/3
+Allow user to specify output file (done)
+Write output file to input so they can read it in again (done 6/3)
+Run *all* the rulesets against the input...
+Quit displaying the rules when switch rulesets (done 6/3)
+Close dialog when they chose a rule (done 6/3)
+
+6/4
+Replace field, subfield in Rule with, uh... FieldSpecifier
+                                wrote display ruleset
+                                wrote commas to tabs (so commas in the input work!)
+Add debug controls! (done 6/5)
+
+6/5
+Need to make an option to match all rules, or match first... gah! (done 6/5)
+    Plainly, Format1.csv is meant to match *all* the rules, whereas Sound and Color should stop once one matches...
+
+6/6
+Write code to select a rule and display (the first n) records that match it (like for R14 in Format3 which may or may not work...
+Read/review code, add comments and instructions for how to do things like Format4 (which is trivial, but not obvious!)
+
+6/7
+Finish with Format4... test 1/2, 12, and 3 3/4 in... handle new rules (maybe add wholeUnit to unit?) (done 6/8)
+
+6/8
+Close the diagnostic window after it starts!! (done 6/8)
+Attempt to apply a second ruleset to even before fails... wonder if there's a blank line or something... gah! (Fixed 6/9)
+
+6/10 
+Added # in the actions to create a second 96x field with the remaining actions...
+
+6/11
+Add output for $c for control fields (done 6/11)
+
+6/22
+Working with Duration2
+    seems like R4 should have also match the number of items, no??
+        i.e. instead of 
+            \([ ]*(approx\.)[ ]*\d+[ ]*(min|minute)(|s)(|\.)[ ]*ea\.\)
+        should be (?)
+            \d+([ ]*)[a-zA-Z -]*.*\([ ]*(approx\.)[ ]*\d+[ ]*(min|minute)(|s)(|\.)[ ]*ea\.\)
+    seems like R8 should have keywords to say just 2 parts?
+            and R9
+            an R10
+
+    partMinutes and partNumber pseudocode
+        numberParts = first int in matched data
+        partMinutes = second?
+        for (int i=1; i<=numberParts {
+            generate another 961 field (which means it has to be in the loop out in Rule!)
+    Um... how to do this nicely (since need to have the part number inside action)... maybe add a param to createAndAddNewField, which tells which part
+number, and just ignore it if we don't have a part number to generate?  It's just so ugly!  Sigh...
+    
+6/23
+Solved parts by storing the number of repetitions in Globals...
+    added totalMinutes, and totalHours to the list of output specials
+
+2,000 mins kills it... since the 0... um... don't know!! (done 6/24)
+
+In the process of modularizing reading/setting the ruleset...  (done 6/24)
+    look at doItAll...
+    need to add parameter to readRuleSet, so it's reuseable... (done 6/24)
+
+6/24
+Need to add rest of Duration2
+    approx...
+    ca... (for hours and etc?) (done 6/26)
+    hr, min, sec !! (done 6/24)
+
+Look at this example:
+	$bdigital, WMV file, si. (some talking sequences), col. tinted with b&w segments
+    should be silent with some sound?
+
+Handle (12, 14, 45 min) (done 6/24)
+
+6/27
+Think about GUI for no 96x
+When using Globals.count, make a list of which field??
+
+Field 961    (fixed 6/25)
+	$a008
+	$b1
+	$c18
+	$fP00H00M00S
+	$gtotal
+	$jcorrect
+	$r/Users/levenick/kelley/data/rules/Duration.csv R0
+instead of 
+Field 961   
+	$a008
+	$b1
+	$c18-20
+	$d1
+	$e1
+	$fP12M
+	$gtotal
+	$jcorrect
+
+Field 961   
+	$a300
+	$b1
+	$ca
+	$d1
+	$e1
+	$f12M
+	$gtotal
+	$jcorrect
+	$r/Users/levenick/kelley/data/rules/Duration2.csv R3
+instead of
+Field 961   
+	$a300
+	$b1
+	$ca
+	$d1
+	$e1
+	$fP12M
+	$gtotal
+	$iapproximate time
+	$jcorrect
+
+make it 2 decimals! (fixed 6/25)
+        $g2.3:1 
+	$h(2.35:1)
+	$r/Users/levenick/kelley/data/rules/Aspect.csv R0
+
+
+Sound3 is all wrong; er... it should not be 999 since it is supposed to do various of them... so need a different mechanism to avoid the ^ thang... (fixed 6/25)
+
+I don't find: (fixed 6/25)
+
+Field 960   
+	$a538
+	$b1
+	$ca
+	$d1
+	$e3
+	$fvideo
+	$jWindows media
+	$kWindows Media
+in 42265014
+
+Sound2 is seriously broken/incomplete!!  (fixed 6/25)
+I generate:
+Field 963   
+	$a300
+	$b1
+	$cb
+	$d1
+	$e1
+	$gprimary
+	$fsound
+	$gsecondary
+	$ksi. (some talking sequences
+	$r/Users/levenick/kelley/data/rules/Sound2.csv R2
+...and the $k field is already in use!
+
+Need to handle multiple 007 fields and not mix (fixed 6/25)
+Field 007 cr cna||||||||
+Field 007 vz mzazu|
+...to get video reel!!
+
+I don't think special650 works... :(
+Perhaps it should be getVariableFields
+                                     | ... or is it just the one?
+6/26
+Check partHours... still a stub? (Fixed 6/26)
+
+Write code to count how many records do not end up with 96x (and print, or something). (done 6/26)
