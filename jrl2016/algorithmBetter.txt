@@ -1,0 +1,62 @@
+for each record {
+    for each 505a {
+        count505s++ (and save as numOccurances for output with $b)
+        if ($a exists) 
+            s = the contents of 505$a
+            aOrT = a (for $c below)
+        else 
+            s = concatenate the text from every $b-$z subfield in the order they are read
+            aOrT = t
+        create a new Whole505 record with s as its text
+         
+        split the Whole505 text on "--", "---", or "- -" adding a new 935 TitleMain record to its list               (1: CREATED_BY_SPLITMAIN)
+        for each 935 TitleMain
+            move anything after "/" to $1                          (2: CREATED_BY_RESPONSIBLE)
+            split on "="  adding a new 935 TitleVariantParallel (3:CREATED_BY_PARALLEL)
+            split on ";" or ";and," adding a new 935 TitleAdditional (4:CREATED_BY_ADDITIONAL)
+
+        for each 935 (on the list from above)             
+            move anything in parentheses to $0... (this) -> $0 this                      (8: CREATED_BY_PARENS)
+
+        for each $1
+            split on part parts generating a new 935 TitleUnmarked (with part 4. A final title as the value) (5: unmarked)
+
+        for each 935 {
+            match BeginningRegexes.txt (or whatever regex file  you have selected) at beginning and 
+                generate a pair of subfields: $x++ whatMatched $x++ TitlePartNameOrNumber (6: beginning part)
+                NB: whatMatched has trailing punctuation trimmed (see data/regexes/trailingPunctuation.txt)
+                NB: matching is a loop; as long as it matches something it chews it off and continues
+                NB3: each time around the loop, a period is pasted on the end (if none is there already) to fix some glitch with the regexes, then it is scrapped off after (I hope)
+            split off subtitles (using : as the splitter) 
+                for each :
+                    add ExtraTitle to ExtraTitleList with (the text, "TitleSubtitle", CREATED_BY_SUBTITLE) for later output
+            split on or, generating a  $x++ TitleVariantAlternative    (9: CREATED_BY_VARIANT)
+                    add ExtraTitle to ExtraTitleList with (the text, "TitleVariantAlternative", CREATED_BY_VARIANT) for later output
+        }
+
+        for each 935 {
+            write the title and its type to the next two subfields (this assumes they are in the title list in the correct order!)
+            for each ExtraTitle in extraTitleList {
+                add a pair of subfields with the next $ values with the title, and its type
+                add who created it to $7
+            }
+        }
+
+         for each 935, output {
+            $a505
+            $bnumOccurances
+            $ca or t
+        }
+    } // for each 505a
+    write record to output file
+} // for each input record
+
+	CREATED_BY_SPLITMAIN = 1
+	CREATED_BY_RESPONSIBLE = 2
+	CREATED_BY_PARALLEL = 3
+	CREATED_BY_ADDITIONAL = 4
+	CREATED_BY_UNMARKED = 5
+	CREATED_BY_BEGINNING_PART = 6
+	CREATED_BY_SUBTITLE = 7
+	CREATED_BY_PARENS = 8
+	CREATED_BY_VARIANT = 9

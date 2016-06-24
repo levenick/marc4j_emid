@@ -1,0 +1,8 @@
+Here is another example of the problem
+=505  0\$atape 2.  Flute concerto in G major : lesson #1 / Mozart ; flutist, Carol Wincenc (55 min.)
+
+Your output:
+=935  \\$0(55 min.)$1 Mozart ; flutist, Carol Wincenc (55 min.)$712678$a505$b1$ca$d1$e1$gtape 2.  Flute concerto in G major : lesson #1 $hTitleMain$itape 2.$jTitlePartNameOrNumber$klesson #1$lTitleSubtitle
+
+Desired output:
+=935  \\$0(55 min.)$1 Mozart ; flutist, Carol Wincenc (55 min.)$712678$a505$b1$ca$d1$e1$gtape 2$hTitlePartNameOrNumber$iFlute concerto in G major$jTitleMain$klesson #1$kTitleSubtitle$0(55 min.)

@@ -1,0 +1,11 @@
+BASIC algorithm
+
+for each record {
+    for each 505a {
+        tokenize, breaking on dashes as delimiters {— | - - | ---}  -> titles
+        for each title (from line above)
+            tokenize, breaking on title delimiters {= | ;and, |;} -> splitTitles
+            for each splitTitle (from the line above)…
+                    something!
+    }
+}
